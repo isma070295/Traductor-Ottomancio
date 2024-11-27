@@ -1,6 +1,11 @@
 # Traductor Ottomancio
 
-Traductor Ottomancio is a unique translation program that converts text into the Ottomancio language, a special alphabet created by me. The translation engine uses a custom font and algorithm to convert each letter into its corresponding character.
+**Traductor Ottomancio** is a custom translation program that translates text from the alphabet into the **Ottomancio language**. This language uses a custom alphabet that I designed, with unique mappings for letters, numbers, and symbols.
+
+## Available Files
+
+- **Traductor-Ottomancio-private.py**: This file contains the full program, including the translation algorithm and alphabet mappings. It is available only to me and is not shared publicly.
+- **Traductor-Ottomancio-public.py**: This public version shows the general structure of the program, but it does not include the proprietary alphabet mappings. The logic for how the translation is made is explained in comments, but the exact mapping is omitted for intellectual property protection.
 
 ## How to Use
 
@@ -9,13 +14,13 @@ Traductor Ottomancio is a unique translation program that converts text into the
 3. Click the "Translate" button to get the translated text and pronunciation as audio.
 4. You can also click the "Play Audio" button to hear the translation read out loud again.
 
+
 ## Features
-- Translates text into the Ottomancio alphabet.
-- Audio output using pyttsx3 (speech synthesis).
-- Easy-to-use interface built with Tkinter.
 
-## Unique Design
-The Ottomancio alphabet is a completely new and unique language system, with distinct mappings for each letter and number. The translation process is done with precision and care to ensure an accurate transformation of your text.
+- Translates text to the Ottomancio alphabet.
+- Converts letters, numbers, and some special characters.
+- Contains a custom-designed font for display and output.
 
-## Contact
-For further inquiries or collaborations, feel free to contact me at isma070295@gmail.com
+## Intellectual Property
+
+The Ottomancio alphabet and translation algorithm are proprietary to me. The full code, including the mapping of letters to the Ottomancio alphabet, is not available for public use. The public version provided here is intended for demonstration purposes only.
