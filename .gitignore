@@ -1,4 +1,4 @@
-*.ttf# Ignore Python files (private version)
+# Ignore Python files (private version)
 Traductor-Ottomancio-private.py
 Ottomnsio.ttf
 *.ttf
