@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <title>Traductor Ottomansio</title>
 <style>
+  @font-face {
+    font-family: 'Ottomancio';
+    src: url('Ottomancio.ttf') format('truetype');
+    font-display: swap;
+  }
+
   :root {
     --bg: #0f1d16;
     --panel: #17291f;
@@ -94,10 +100,10 @@
   }
 
   .out {
-    font-family: var(--mono);
-    font-size: 15px;
-    letter-spacing: 0.3px;
-    color: var(--yellow);
+    font-family: 'Ottomancio', var(--mono);
+    font-size: 22px;
+    letter-spacing: 0.5px;
+    color: var(--ink);
     min-height: 84px;
     background: #0d1912;
     border: 1px solid #24422f;
@@ -105,6 +111,13 @@
     padding: 12px 14px;
     white-space: pre-wrap;
     word-break: break-word;
+  }
+
+  .pronunciation {
+    margin-top: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--yellow);
   }
 
   .row {
@@ -178,6 +191,7 @@
   <div class="row">
     <label for="translated">TRADUCCIÓN</label>
     <div class="out" id="translated"></div>
+    <div class="pronunciation" id="pronunciation"></div>
   </div>
 
   <div class="actions">
@@ -216,6 +230,7 @@ function ottomansio(text) {
 
 const originalBox = document.getElementById("original");
 const translatedBox = document.getElementById("translated");
+const pronunciationEl = document.getElementById("pronunciation");
 const statusEl = document.getElementById("status");
 
 function showStatus(msg, kind) {
@@ -233,10 +248,12 @@ function doTranslate() {
   const text = originalBox.value.trim();
   if (!text) {
     translatedBox.textContent = "";
+    pronunciationEl.textContent = "";
     showStatus("Debe ingresar texto para traducir.", "err");
     return;
   }
-  translatedBox.textContent = currentTranslation();
+  translatedBox.textContent = text;
+  pronunciationEl.textContent = "Pronunciación: " + currentTranslation();
 }
 
 document.getElementById("btnTranslate").addEventListener("click", doTranslate);
