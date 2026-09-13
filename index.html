@@ -5,14 +5,17 @@
 <title>Traductor Ottomansio</title>
 <style>
   :root {
-    --bg: #1c1a24;
-    --panel: #26232f;
-    --ink: #eae6f2;
-    --muted: #8b86a0;
-    --accent: #c9a3ff;
-    --accent-dim: #6b5a94;
-    --ok: #7fd9a8;
-    --err: #ff8a8a;
+    --bg: #0f1d16;
+    --panel: #17291f;
+    --ink: #eaf1ec;
+    --muted: #7fa08d;
+    --green: #4cae7d;
+    --green-dim: #2c5e42;
+    --red: #d1483e;
+    --red-dim: #7a2a24;
+    --yellow: #e8b93f;
+    --ok: #4cae7d;
+    --err: #e2685e;
     --mono: 'JetBrains Mono', 'Courier New', monospace;
     --serif: 'Georgia', serif;
   }
@@ -22,7 +25,7 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background: radial-gradient(circle at 20% -10%, #322a45 0%, var(--bg) 55%);
+    background: radial-gradient(circle at 20% -10%, #1c3626 0%, var(--bg) 55%);
     color: var(--ink);
     font-family: var(--serif);
     display: flex;
@@ -35,7 +38,7 @@
     width: 100%;
     max-width: 640px;
     background: var(--panel);
-    border: 1px solid #38334455;
+    border: 1px solid #2c5e4255;
     border-radius: 18px;
     padding: 28px 30px 24px;
     box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
@@ -44,7 +47,7 @@
   .glyphline {
     font-family: var(--mono);
     letter-spacing: 4px;
-    color: var(--accent-dim);
+    color: var(--yellow);
     font-size: 12px;
     margin-bottom: 6px;
   }
@@ -75,8 +78,8 @@
     width: 100%;
     resize: vertical;
     min-height: 84px;
-    background: #17151d;
-    border: 1px solid #3a3548;
+    background: #0d1912;
+    border: 1px solid #24422f;
     border-radius: 10px;
     color: var(--ink);
     font-family: var(--serif);
@@ -87,17 +90,17 @@
 
   textarea:focus {
     outline: none;
-    border-color: var(--accent-dim);
+    border-color: var(--green);
   }
 
   .out {
     font-family: var(--mono);
     font-size: 15px;
     letter-spacing: 0.3px;
-    color: var(--accent);
+    color: var(--yellow);
     min-height: 84px;
-    background: #17151d;
-    border: 1px solid #3a3548;
+    background: #0d1912;
+    border: 1px solid #24422f;
     border-radius: 10px;
     padding: 12px 14px;
     white-space: pre-wrap;
@@ -121,23 +124,34 @@
     letter-spacing: 0.4px;
     padding: 10px 16px;
     border-radius: 8px;
-    border: 1px solid var(--accent-dim);
+    border: 1px solid var(--green-dim);
     background: transparent;
     color: var(--ink);
     cursor: pointer;
     transition: background 0.15s ease, transform 0.1s ease;
   }
 
-  button:hover { background: #35304a; }
+  button:hover { background: #1f3b2a; }
   button:active { transform: translateY(1px); }
 
   button.primary {
-    background: var(--accent);
-    color: #1c1a24;
-    border-color: var(--accent);
+    background: var(--green);
+    color: #0f1d16;
+    border-color: var(--green);
     font-weight: 600;
   }
-  button.primary:hover { background: #d9baff; }
+  button.primary:hover { background: #63c795; }
+
+  #btnCopy {
+    border-color: var(--red-dim);
+  }
+  #btnCopy:hover { background: #3a1e1a; }
+
+  #btnSpeak {
+    border-color: var(--yellow);
+    color: var(--yellow);
+  }
+  #btnSpeak:hover { background: #3a2f14; }
 
   .status {
     margin-top: 14px;
