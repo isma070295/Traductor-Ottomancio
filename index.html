@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Traductor Ottomansio</title>
+<style>
+  :root {
+    --bg: #1c1a24;
+    --panel: #26232f;
+    --ink: #eae6f2;
+    --muted: #8b86a0;
+    --accent: #c9a3ff;
+    --accent-dim: #6b5a94;
+    --ok: #7fd9a8;
+    --err: #ff8a8a;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+    --serif: 'Georgia', serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at 20% -10%, #322a45 0%, var(--bg) 55%);
+    color: var(--ink);
+    font-family: var(--serif);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--panel);
+    border: 1px solid #38334455;
+    border-radius: 18px;
+    padding: 28px 30px 24px;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+
+  .glyphline {
+    font-family: var(--mono);
+    letter-spacing: 4px;
+    color: var(--accent-dim);
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    margin: 0 0 4px;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  p.sub {
+    margin: 0 0 22px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    margin-bottom: 6px;
+  }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+    min-height: 84px;
+    background: #17151d;
+    border: 1px solid #3a3548;
+    border-radius: 10px;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 15px;
+    padding: 12px 14px;
+    line-height: 1.5;
+  }
+
+  textarea:focus {
+    outline: none;
+    border-color: var(--accent-dim);
+  }
+
+  .out {
+    font-family: var(--mono);
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    color: var(--accent);
+    min-height: 84px;
+    background: #17151d;
+    border: 1px solid #3a3548;
+    border-radius: 10px;
+    padding: 12px 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .row {
+    margin-top: 18px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  button {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.4px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--accent-dim);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+
+  button:hover { background: #35304a; }
+  button:active { transform: translateY(1px); }
+
+  button.primary {
+    background: var(--accent);
+    color: #1c1a24;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  button.primary:hover { background: #d9baff; }
+
+  .status {
+    margin-top: 14px;
+    font-size: 13px;
+    min-height: 18px;
+    font-family: var(--mono);
+  }
+  .status.ok { color: var(--ok); }
+  .status.err { color: var(--err); }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="glyphline">MUNXE &middot; REYU &middot; JUNQE</div>
+  <h1>Traductor Ottomansio</h1>
+  <p class="sub">Escribe en español abajo. Se traduce letra por letra al alfabeto ottomansio, con pronunciación hablada y copiado al portapapeles.</p>
+
+  <div class="row">
+    <label for="original">TEXTO ORIGINAL</label>
+    <textarea id="original" placeholder="Escribe algo aquí..."></textarea>
+  </div>
+
+  <div class="row">
+    <label for="translated">TRADUCCIÓN</label>
+    <div class="out" id="translated"></div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="btnTranslate">Traducir</button>
+    <button id="btnSpeak">Reproducir pronunciación</button>
+    <button id="btnCopy">Copiar al portapapeles</button>
+  </div>
+
+  <div class="status" id="status"></div>
+</div>
+
+<script>
+const ottomansioAlphabet = {
+  "a": "u", "b": "z", "c": "k", "d": "x", "e": "o", "f": "w", "g": "v", "h": "r",
+  "i": "i", "j": "s", "k": "c", "l": "y", "m": "p", "n": "n", "ñ": "ñ", "o": "e",
+  "p": "m", "q": "t", "r": "h", "s": "j", "t": "q", "u": "a", "v": "g", "w": "f",
+  "x": "d", "y": "l", "z": "b",
+  "0": "kohe", "1": "ane", "2": "xej", "3": "qhoj", "4": "kauqhe",
+  "5": "kinke", "6": "joij", "7": "jioqo", "8": "ekre", "9": "naogo", "10": "xiob",
+  "11": "enko", "12": "xeko", "13": "qhoko", "14": "kuqehko", "15": "tainko", "20": "goinqo",
+  "30": "qhoinqu", "40": "kauhonqu", "50": "kinkaonqu", "60": "jojonqu", "70": "joqonqu",
+  "80": "ekronqu", "90": "negonqu", "100": "kion", "1000": "piy"
+};
+
+function ottomansio(text) {
+  const words = text.split(/\s+/).filter(Boolean);
+  const result = words.map(word => {
+    if (/^\d+$/.test(word)) {
+      if (ottomansioAlphabet[word]) return ottomansioAlphabet[word];
+      return word.split("").map(d => ottomansioAlphabet[d] || d).join(" ");
+    }
+    return word.split("").map(ch => ottomansioAlphabet[ch.toLowerCase()] || ch).join("");
+  });
+  return result.join(" ");
+}
+
+const originalBox = document.getElementById("original");
+const translatedBox = document.getElementById("translated");
+const statusEl = document.getElementById("status");
+
+function showStatus(msg, kind) {
+  statusEl.textContent = msg;
+  statusEl.className = "status " + (kind || "");
+  clearTimeout(showStatus._t);
+  showStatus._t = setTimeout(() => { statusEl.textContent = ""; }, 2500);
+}
+
+function currentTranslation() {
+  return ottomansio(originalBox.value.trim());
+}
+
+function doTranslate() {
+  const text = originalBox.value.trim();
+  if (!text) {
+    translatedBox.textContent = "";
+    showStatus("Debe ingresar texto para traducir.", "err");
+    return;
+  }
+  translatedBox.textContent = currentTranslation();
+}
+
+document.getElementById("btnTranslate").addEventListener("click", doTranslate);
+originalBox.addEventListener("input", doTranslate);
+
+document.getElementById("btnSpeak").addEventListener("click", () => {
+  const text = originalBox.value.trim();
+  if (!text) {
+    showStatus("Debe ingresar texto para reproducir el audio.", "err");
+    return;
+  }
+  if (!("speechSynthesis" in window)) {
+    showStatus("Tu navegador no soporta síntesis de voz.", "err");
+    return;
+  }
+  const utter = new SpeechSynthesisUtterance(currentTranslation());
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+});
+
+document.getElementById("btnCopy").addEventListener("click", async () => {
+  const text = currentTranslation();
+  if (!text) {
+    showStatus("No hay texto para copiar.", "err");
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(text);
+    showStatus("Texto traducido copiado al portapapeles.", "ok");
+  } catch (e) {
+    showStatus("Error al copiar texto al portapapeles.", "err");
+  }
+});
+</script>
+
+</body>
+</html>
